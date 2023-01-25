@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick="ajax()">Create</button>
+    <button onclick="ajaxlogin()">In</button>
+    <button onclick="ajaxlogout()">Out</button>
+    <button onclick="ajaxget()">Get</button>
+    <button onclick="ajaxadd()">Add</button>
+    <button onclick="ajaxupdate()">Update</button>
+    <button onclick="ajaxdelete()">Delete</button>
+
+    <script>
+        // const xml = new XMLHttpRequest();
+
+        /*
+        // --
+        xml.open("GET", "https://raw.githubusercontent.com/divmain/GitSavvy/master/README.md")
+
+        xml.onreadystatechange = () => {
+            console.log(xml.readyState);
+            if (xml.readyState == 4) {
+                console.log(xml.responseText, "Request 1")
+                // No waiting for execution
+            }
+        }
+
+        xml.send()
+        // --
+        */
+
+        async function ajax() {
+            const res = await (await fetch("/user/new?username=This&password=body12345678", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).text()
+
+            console.log(res)
+        }
+
+        async function ajaxlogin() {
+            const res = await (await fetch("/user/in?username=This&password=body12345678", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).text()
+
+            console.log(res)
+        }
+        async function ajaxlogout() {
+            const res = await (await fetch("/user/out?username=This&password=body12345678", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).text()
+
+            console.log(res)
+        }
+
+        async function ajaxget() {
+            const res = await (await fetch("/task?username=This&password=body12345678", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).text()
+
+            console.log(res)
+        }
+        async function ajaxadd() {
+            const res = await (await fetch("/task?username=This&password=body12345678", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ details: "This a task?" }),
+            })).text()
+
+            console.log(res)
+        }
+
+        async function ajaxupdate() {
+            const res = await (await fetch("/task?username=This&password=body12345678", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: 1, details: "This a task? Updated" }),
+            })).text()
+
+            console.log(res)
+        }
+        async function ajaxdelete() {
+            const res = await (await fetch("/task?username=This&password=body12345678", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: 1 }),
+            })).text()
+
+            console.log(res)
+        }
+    </script>
+</body>
+
+</html>
