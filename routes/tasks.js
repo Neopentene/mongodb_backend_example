@@ -46,7 +46,7 @@ tasksRouter.get("/", async (req, res) => {
         return boilerplateResponse(
           res,
           "ok",
-          `List of ${tasks.length} tasks`,
+          `List of ${tasks ? tasks.length : 0} tasks`,
           undefined,
           tasks
         );
