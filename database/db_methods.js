@@ -1,13 +1,42 @@
 import { mongoConfig, connection } from "./db_config.js";
-import { User, Status, mapToUser } from "../models/user.js";
+import { User, mapToUser } from "../models/user.js";
 import { Task, mapToTask } from "../models/task.js";
+
+/**
+ * Create collections
+ * @returns {{users: boolean, tasks: boolean}}
+ */
+export async function createCollections() {
+  let instance,
+    db,
+    status = {
+      users: false,
+      tasks: false,
+    };
+  try {
+    instance = await connection.connect();
+    db = instance.db(mongoConfig.databaseName);
+    const resolve = await Promise.allSettled([
+      db.createCollection(mongoConfig.collections.users),
+      db.createCollection(mongoConfig.collections.tasks),
+    ]);
+    if (resolve[0].status === "fulfilled" && resolve[0].value)
+      status.users = true;
+    if (resolve[1].status === "fulfilled" && resolve[1].value)
+      status.tasks = true;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await instance?.close();
+    return status;
+  }
+}
 
 /**
  * Get the information of the user from the database
  * @param {string} username - Name of the user
  * @returns {Promise<User | undefined>} User object or null
  */
-
 export async function getUserInfo(username) {
   let instance, collection, user_data;
   try {
@@ -20,7 +49,7 @@ export async function getUserInfo(username) {
   } catch (error) {
     console.log(error);
   } finally {
-    instance.close();
+    await instance?.close();
     return user_data ? mapToUser(user_data, true) : undefined;
   }
 }
@@ -48,7 +77,7 @@ export async function updateUserInfo(username, state, extendTimeout = 0) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return result.acknowledged;
   }
 }
@@ -70,7 +99,7 @@ export async function addUserInfo(user) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return result.acknowledged;
   }
 }
@@ -98,7 +127,7 @@ export async function getTasks(username) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return task_list.length > 0 ? task_list : undefined;
   }
 }
@@ -132,7 +161,7 @@ export async function addTask(username, details) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return [result.acknowledged, id];
   }
 }
@@ -159,7 +188,7 @@ export async function updateTask(username, id, details) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return result.acknowledged && result.modifiedCount > 0;
   }
 }
@@ -182,7 +211,7 @@ export async function deleteTask(username, id) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return result.acknowledged && result.deletedCount > 0;
   }
 }
@@ -204,7 +233,7 @@ export async function countTasks(username) {
   } catch (error) {
     console.log(error);
   } finally {
-    await instance.close();
+    await instance?.close();
     return result;
   }
 }

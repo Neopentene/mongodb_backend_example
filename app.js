@@ -16,6 +16,9 @@ import engine from "ejs";
 
 import { usersRouter } from "./routes/users.js";
 import { tasksRouter } from "./routes/tasks.js";
+
+import { createCollections } from "./database/db_methods.js";
+
 // Initialize server application
 const app = express();
 
@@ -56,3 +59,19 @@ const server = app.listen(
     );
   }
 );
+
+server.on("listening", async () => {
+  const collections = await createCollections();
+
+  if (!collections.tasks)
+    console.error(
+      "Failed to create tasks collection, perhaps it already exists"
+    );
+  else console.log("Created tasks collection");
+
+  if (!collections.users)
+    console.error(
+      "Failed to create users collection, perhaps it already exists"
+    );
+  else console.log("Created users collection");
+});
