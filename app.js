@@ -38,7 +38,7 @@ app.use(
 app.engine("html", engine.renderFile);
 app.set("views", "./public");
 app.set("view engine", "ejs");
-app.use(express.static("/public"));
+app.use(express.static("public"));
 
 // Route to serve application
 app.get("/", async (req, res) => {
