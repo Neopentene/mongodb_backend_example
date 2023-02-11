@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick="ajaxCreate('This', 'body12345678')">Create</button>
+    <button onclick="ajaxLogin('This', 'body12345678')">In</button>
+    <button onclick="ajaxLogout('This', 'body12345678')">Out</button>
+    <button onclick="ajaxGet('This', 'body12345678')">Get</button>
+    <button onclick="ajaxAdd('This', 'body12345678', 'New Task')">Add</button>
+    <button onclick="ajaxUpdate('This', 'body12345678', 0, 'Updated on Click')">Update</button>
+    <button onclick="ajaxDelete('This', 'body12345678', 0)">Delete</button>
+
+    <script>
+        // const xml = new XMLHttpRequest();
+
+        /*
+        // --
+        xml.open("GET", "https://raw.githubusercontent.com/divmain/GitSavvy/master/README.md")
+
+        xml.onreadystatechange = () => {
+            console.log(xml.readyState);
+            if (xml.readyState == 4) {
+                console.log(xml.responseText, "Request 1")
+                // No waiting for execution
+            }
+        }
+
+        xml.send()
+        // --
+        */
+
+
+        async function ajaxCreate(username, password) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).json()
+
+            console.log(res)
+        }
+
+        async function ajaxLogin(username, password) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).json()
+
+            console.log(res)
+        }
+        async function ajaxLogout(username, password) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).json()
+
+            console.log(res)
+        }
+
+        async function ajaxGet(username, password) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })).json()
+
+            console.log(res)
+        }
+
+        async function ajaxAdd(username, password, taskDescription) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ description: taskDescription }),
+            })).json()
+
+            console.log(res)
+        }
+
+        async function ajaxUpdate(username, password, id = 0, newTaskDescription = "Updated Task") {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: id, description: newTaskDescription }),
+            })).json()
+
+            console.log(res)
+        }
+
+        async function ajaxDelete(username, password, id = 0) {
+            const res = await (await fetch(`/user/new?username=${username}&password=${password}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: id }),
+            })).json()
+
+            console.log(res)
+        }
+    </script>
+</body>
+
+</html>

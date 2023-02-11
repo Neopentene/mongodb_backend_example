@@ -45,6 +45,11 @@ app.get("/", async (req, res) => {
   res.render("index.html");
 });
 
+// TODO: Delete this
+app.get("/help", (req, res) => {
+  res.render("instructions.html");
+});
+
 app.use("/user", usersRouter);
 app.use("/task", tasksRouter);
 
@@ -53,7 +58,7 @@ const server = app.listen(
   process.env.ADDRESS,
   () => {
     console.log(
-      "Sever listening on http://%s:%s",
+      "Server listening on http://%s:%s",
       process.env.ADDRESS,
       process.env.PORT
     );
